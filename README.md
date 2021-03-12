@@ -1,3 +1,5 @@
+![Laravel](https://laravel.com/img/logomark.min.svg) ![Laravel](https://laravel.com/img/logotype.min.svg)
+
 # KURSUS TRANSFER OF TECHNOLOGY (TOT) PEMBANGUNAN SISTEM MENGGUNAKAN FRAMEWORK
 * TAJUK : LARAVEL FRAMEWORK (Versi 8.x)
 * KATEGORI : ICT
