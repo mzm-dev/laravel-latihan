@@ -3,6 +3,7 @@
 * KATEGORI : ICT
 * TARIKH : 15-17 MAC 2021
 * LOKASI : BILIK MESYUARAT UPTM
+* BAHASA BAHAN : DWIBAHASA
 
 ## Pra-syarat
 * Untuk mempelajari Framework Laravel, anda mempunyai asas yang kukuh dalam **PHP & MYSQL** disamping pengetahuan lain seperti **HTML,CSS dan JavaScript.**
