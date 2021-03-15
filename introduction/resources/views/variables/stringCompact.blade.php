@@ -9,6 +9,6 @@
 <body>
 <h1>String Compact</h1>
 <p>Nama : {{ $name }}</p>
-<p>Umur {{ $umur }} </p>
+<p>Umur : {{ $umur }} </p>
 </body>
 </html>
