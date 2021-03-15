@@ -59,3 +59,15 @@ Route::get('/variables/parameter/{age?}', function ($age=null) {
     return view('variables/stringCompact', compact('name','umur'));
 
 })->name('variables.parameter');
+
+Route::get('/variables/parameter/{age?}/', function ($age = null) {
+    //resources/views/variables/<nama_file>.blade.php
+
+    $name = "Yusri";
+    //$umur = $age ?? 'Tiada Maklumat Umur';
+    //$umur = $conditions  ? TRUE ? FALSE;
+    $umur = $age >= 0 ? $age : 'Tiada Maklumat Umur';
+
+    return view('variables/string', compact('name','umur'));
+
+})->name('variables.parameter');
