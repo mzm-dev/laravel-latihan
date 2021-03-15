@@ -10,5 +10,18 @@
 <h1>String Compact</h1>
 <p>Nama : {{ $name }}</p>
 <p>Umur : {{ $umur }} </p>
+<p>Kategori :
+    @if ($umur > 0 && $umur <=12 )
+        {{ 'Kanak-kanak' }}
+    @elseif($umur > 12 && $umur <= 21)
+        {{ 'Remaja' }}
+    @elseif($umur > 21)
+        {{ 'Dewasa' }}
+    @else
+        {{ 'Bayi' }}
+    @endif
+
+</p>
+
 </body>
 </html>
