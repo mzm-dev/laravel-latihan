@@ -24,3 +24,28 @@
 * Pemasangan [Extension Laravel Virtual Studio Editor](https://marketplace.visualstudio.com/items?itemName=onecentlin.laravel-extension-pack)
 * Muat Turun [Bootstrap 4](https://github.com/twbs/bootstrap/archive/v4.0.0.zip)
 * [Nota Latihan](https://github.com/mzm-dev/laravel-latihan/wiki)
+
+
+**Apabila file kandungan/setting dalam env berubah, perlu run**
+
+```php artisan config:cache```
+
+**Senarai Routes**
+
+```php artisan route:list```
+
+**Senarai Routes dengan carian NAME route**
+
+```php artisan route:list --name="home"```
+
+**Senarai Routes dengan carian URL route**
+
+```php artisan route:list --path="api"```
+
+**Senarai Routes dengan carian METHOD route**
+
+```php artisan route:list --method="POST"```
+
+**Duplicate (Copy & paste)**
+
+```Shift + Alt + Arrow Down```
