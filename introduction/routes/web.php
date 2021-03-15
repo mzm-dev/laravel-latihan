@@ -49,3 +49,13 @@ Route::get('/variables/string-array', function () {
     //return view('variables/stringtwo', array('name'=>$name, 'age'=>$umur));
 
 })->name('variables.stringArray');
+
+
+Route::get('/variables/parameter/{age?}', function ($age=null) {
+
+    $name = "Yusri";
+    $umur = $age ?? 'Tiada Maklumat';
+
+    return view('variables/stringCompact', compact('name','umur'));
+
+})->name('variables.parameter');
