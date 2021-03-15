@@ -29,44 +29,23 @@ Route::get('/pengguna-utama', function () {
     return view('pengguna/utama');
 })->name('pengguna.utama');
 
-Route::get('/variables/string', function () {
+Route::get('/variables/string-compact', function () {
     //resources/views/variables/<nama_file>.blade.php
 
     $name = "Yusri";
     $umur = "40";
 
-    return view('variables/string', compact('name','umur'));
+    return view('variables/stringCompact', compact('name','umur'));
 
-})->name('variables.string');
+})->name('variables.stringCompact');
 
-Route::get('/variables/string-two', function () {
+Route::get('/variables/string-array', function () {
     //resources/views/variables/<nama_file>.blade.php
 
     $name = "Yusri";
     $umur = "40";
 
-    return view('variables/stringtwo', ['name'=>$name, 'age'=>$umur]);
+    return view('variables/stringArray', ['name'=>$name, 'age'=>$umur]);
     //return view('variables/stringtwo', array('name'=>$name, 'age'=>$umur));
 
-})->name('variables.string-two');
-
-Route::get('/variables/parameters', function (Request $request) {
-    //resources/views/variables/<nama_file>.blade.php
-
-    $name = "Yusri";
-    $umur = $request->age;
-
-    return view('variables/string', compact('name','umur'));
-
-})->name('variables.parameters');
-
-Route::get('/variables/parameters-two/{age}', function (Request $request, $age) {
-    //resources/views/variables/<nama_file>.blade.php
-
-    $name = "Yusri";
-    $umur = $age;
-    $nickname = "TDHLB";
-
-    return view('variables/string', compact('name','umur'));
-
-})->name('variables.parameters');
+})->name('variables.stringArray');
