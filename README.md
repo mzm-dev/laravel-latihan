@@ -52,7 +52,15 @@
 ```
 php artisan make:controller JawatanController --resource --model=Jawatan
 
+//app\Http\Controllers\JawatanController.php
+//app\Models\Jawatan.php
+
 php artisan make:controller JabatanController --resource --model=Jabatan
+
+//app\Http\Controllers\JabatanController.php
+//app\Models\Jabatan.php
+
+//app\Http\Controllers\JawatanController.php
 ```
 > --resource adalah untuk jana function untuk CRUD
 
