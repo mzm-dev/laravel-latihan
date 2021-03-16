@@ -49,9 +49,11 @@
 
 **Generate Controller & Generate Model jika belum wujud**
 
-```php artisan make:controller JawatanController --resource --model=Jawatan```
+```
+php artisan make:controller JawatanController --resource --model=Jawatan
 
-```php artisan make:controller JabatanController --resource --model=Jabatan```
+php artisan make:controller JabatanController --resource --model=Jabatan
+```
 
 **Duplicate (Copy & paste)**
 
