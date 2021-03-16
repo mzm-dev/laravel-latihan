@@ -82,4 +82,26 @@ CREATE TABLE IF NOT EXISTS `pegawai` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+-- Dumping structure for table db_direktori.jawatan
+DROP TABLE IF EXISTS `jawatan`;
+CREATE TABLE IF NOT EXISTS `jawatan` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping structure for table db_direktori.jabatan
+DROP TABLE IF EXISTS `jabatan`;
+CREATE TABLE IF NOT EXISTS `jabatan` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ```
