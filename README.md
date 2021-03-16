@@ -23,6 +23,7 @@
 * Muat Turun [Virtual Studio Editor](https://code.visualstudio.com/download)
 * Pemasangan [Extension Laravel Virtual Studio Editor](https://marketplace.visualstudio.com/items?itemName=onecentlin.laravel-extension-pack)
 * Muat Turun [Bootstrap 4](https://github.com/twbs/bootstrap/archive/v4.0.0.zip)
+* Muat Turun (JQuery)[https://code.jquery.com/jquery-3.6.0.min.js]
 * [Nota Latihan](https://github.com/mzm-dev/laravel-latihan/wiki)
 
 ## PHP ARTISAN
