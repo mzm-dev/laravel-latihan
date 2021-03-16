@@ -30,6 +30,13 @@
                                 <td>{{ $jawatan->updated_at }}</td>
                                 <td>
                                     <a href="{{ route('jawatan.edit',$jawatan) }}">Kemaskini</a>
+
+                                    <form action="{{ route('jawatan.destroy',$jawatan) }}" method="POST"
+                                     onsubmit="return confirm('Adakah anda pasti untuk hapuskan data ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                            <button type="submit" class="btn btn-link">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
@@ -41,11 +48,12 @@
             </div>
             <div class="card-footer">
                 @if(count($jawatanArray) > 0)
-                    {{-- Pagination button link --}}
+                {{-- Pagination button link --}}
                     {{ $jawatanArray->links() }}
                 @endif
             </div>
         </div>
     </div>
+
 
 @endsection
