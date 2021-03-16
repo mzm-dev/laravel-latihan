@@ -48,7 +48,10 @@
 ```php artisan route:list --method="POST"```
 
 **Generate Controller & Generate Model jika belum wujud**
-```php artisan make:controller MembersController --resource --model=Member```
+
+```php artisan make:controller JawatanController --resource --model=Jawatan```
+
+```php artisan make:controller JabatanController --resource --model=Jabatan```
 
 **Duplicate (Copy & paste)**
 
