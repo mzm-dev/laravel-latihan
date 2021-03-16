@@ -65,7 +65,31 @@ php artisan make:controller JabatanController --resource --model=Jabatan
 ```
 > --resource adalah untuk jana function untuk CRUD
 
+### Shortcut Key
+
 **Duplicate (Copy & paste)**
 
 ```Shift + Alt + Arrow Down```
+
+**Komen Code Line**
+
+```Ctrl + /```
+
+**Blade Code**
+
+```b:``` 
+follow by syntax
+
+**Emmet Code**
+(Emmet)[https://docs.emmet.io/cheat-sheet/]
+
+Table HTML
+```html
+# jana 1 row 1 colm
+table>thead>tr>th
+
+# jana 1 row 2 colm
+table>thead>tr>th*2
+```
+
 
