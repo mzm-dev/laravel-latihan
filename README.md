@@ -47,6 +47,9 @@
 
 ```php artisan route:list --method="POST"```
 
+**Generate Controller & Generate Model jika belum wujud**
+```php artisan make:controller MembersController --resource --model=Member```
+
 **Duplicate (Copy & paste)**
 
 ```Shift + Alt + Arrow Down```
