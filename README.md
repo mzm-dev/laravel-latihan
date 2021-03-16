@@ -54,6 +54,7 @@ php artisan make:controller JawatanController --resource --model=Jawatan
 
 php artisan make:controller JabatanController --resource --model=Jabatan
 ```
+> --resource adalah untuk jana function untuk CRUD
 
 **Duplicate (Copy & paste)**
 
