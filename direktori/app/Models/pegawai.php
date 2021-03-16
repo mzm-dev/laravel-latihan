@@ -36,7 +36,7 @@ class Pegawai extends Model
      *
      * @var array
      */
-    protected $fillable = ['nama', 'nokp', 'no_tel_pejabat', 'no_tel_bimbit', 'emel', 'jabatan_id', 'jawatan_id', 'gred', 'imej', 'aktif'];
+    protected $fillable = ['nama', 'nokp', 'no_tel_pejabat', 'no_tel_bimbit', 'emel', 'jabatan_id', 'jawatan_id', 'gred', 'imej'];
 
     /**
      * Get the jawatan that owns the Pegawai
