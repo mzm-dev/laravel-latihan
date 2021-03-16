@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jabatan;
+use App\Models\Jawatan;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
 class PegawaiController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $pegawaiArray = Pegawai::paginate();
+        //Select berserta pagination
+        $pegawaiArray = Pegawai::paginate(5);
+        //$pegawaiArray = Pegawai::simplePaginate(5);
 
-        return view('pegawai/index', compact('pegawaiArray'));
+        return view('pegawai.index',compact('pegawaiArray'));
     }
 
     /**
@@ -27,7 +30,12 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        return view('pegawai/create');
+
+        //Select dropdown
+        $jawatan = Jawatan::pluck('nama','id');
+        $jabatan = Jabatan::pluck('nama','id');
+
+        return view('pegawai.create', compact('jawatan','jabatan'));
     }
 
     /**
@@ -38,11 +46,15 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        //Save all input data
+        //Save data dari form
+
+        //$request->except(['status']);//remove requst fields
+        //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
         Pegawai::create($request->all());
 
-        //redirect to pegawai list
-        return Redirect::route('pegawai.index')->with('success', 'Maklumat pegawai telah berjaya disimpan');
+        return redirect()
+            ->route('pegawai.index')
+            ->with('success','Maklumat pegawai telah berjaya disimpan');
     }
 
     /**
@@ -53,7 +65,7 @@ class PegawaiController extends Controller
      */
     public function show(Pegawai $pegawai)
     {
-        return view('pegawai/show', compact('pegawai'));
+        //
     }
 
     /**
@@ -64,7 +76,11 @@ class PegawaiController extends Controller
      */
     public function edit(Pegawai $pegawai)
     {
-        return view('pegawai/edit', compact('pegawai'));
+
+        $jawatan = Jawatan::pluck('nama','id');
+        $jabatan = Jabatan::pluck('nama','id');
+
+        return view('pegawai.edit', compact('pegawai','jawatan','jabatan'));
     }
 
     /**
@@ -76,32 +92,12 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, Pegawai $pegawai)
     {
-
-        if ($request->only('avatar')) {
-            $imageName = time() . '.' . $request->avatar->extension();
-
-            //Store Image in Public Folder
-            //public/images/file.png
-            #$request->image->move(public_path('emej'), $imageName);
-
-            //Store Image in Storage Folder
-            //storage/app/images/file.png
-            $request->avatar->storeAs('public/images', $imageName);
-
-            $request->merge([
-                'imej' => $imageName
-            ]);
-        }
-        //Check value of aktif
-        $request->merge([
-            'aktif' => $request->aktif ?? 0
-        ]);
-
-        //Update all input data
+        //update data form pegawai
         $pegawai->update($request->all());
 
-        //redirect to pegawai list
-        return Redirect::route('pegawai.index')->with('success', 'Maklumat pegawai telah berjaya dikemaskini');
+        return redirect()
+            ->route('pegawai.index')
+            ->with('success','Maklumat pegawai telah berjaya dikemaskini');
     }
 
     /**
@@ -112,10 +108,10 @@ class PegawaiController extends Controller
      */
     public function destroy(Pegawai $pegawai)
     {
-        //Delete selected data pegawai
         $pegawai->delete();
 
-        //redirect to pegawai list
-        return Redirect::route('pegawai.index')->with('success', 'Maklumat pegawai telah berjaya dihapuskan');
+        return redirect()
+        ->route('pegawai.index')
+        ->with('success','Maklumat pegawai telah berjaya dihapuskan');
     }
 }
