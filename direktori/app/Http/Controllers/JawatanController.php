@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Jawatan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
 class JawatanController extends Controller
 {
@@ -15,9 +14,12 @@ class JawatanController extends Controller
      */
     public function index()
     {
-        $jabatanArray = Jawatan::paginate();
 
-        return view('jawatan/index', compact('jabatanArray'));
+        //Select berserta pagination
+        $jawatanArray = Jawatan::paginate(5);
+        //$jawatanArray = Jawatan::simplePaginate(5);
+
+        return view('jawatan.index',compact('jawatanArray'));
     }
 
     /**
@@ -27,7 +29,7 @@ class JawatanController extends Controller
      */
     public function create()
     {
-        return view('jawatan/create');
+        return view('jawatan.create');
     }
 
     /**
@@ -38,11 +40,15 @@ class JawatanController extends Controller
      */
     public function store(Request $request)
     {
-        //Save all input data
+        //Save data dari form
+
+        //$request->except(['status']);//remove requst fields
+        //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
         Jawatan::create($request->all());
 
-        //redirect to jawatan list
-        return Redirect::route('jawatan.index')->with('success','Maklumat jawatan telah berjaya disimpan');
+        return redirect()
+            ->route('jawatan.index')
+            ->with('success','Maklumat jawatan telah berjaya disimpan');
     }
 
     /**
@@ -53,7 +59,7 @@ class JawatanController extends Controller
      */
     public function show(Jawatan $jawatan)
     {
-        return view('jawatan/show', compact('jawatan'));
+        //
     }
 
     /**
@@ -64,7 +70,7 @@ class JawatanController extends Controller
      */
     public function edit(Jawatan $jawatan)
     {
-        return view('jawatan/edit', compact('jawatan'));
+        return view('jawatan.edit', compact('jawatan'));
     }
 
     /**
@@ -76,20 +82,15 @@ class JawatanController extends Controller
      */
     public function update(Request $request, Jawatan $jawatan)
     {
-        //Check value of aktif
-        $request->merge([
-            'aktif' => $request->aktif ?? 0
-        ]);
-
-        //Update all input data
+        //update data form jawatan
         $jawatan->update($request->all());
 
-        //redirect to jawatan list
-        return Redirect::route('jawatan.index')->with('success', 'Maklumat jawatan telah berjaya dikemaskini');
-
+        return redirect()
+            ->route('jawatan.index')
+            ->with('success','Maklumat jawatan telah berjaya dikemaskini');
     }
 
-     /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Jawatan  $jawatan
@@ -97,11 +98,11 @@ class JawatanController extends Controller
      */
     public function destroy(Jawatan $jawatan)
     {
-        //Delete selected data jawatan
+        //delete rekod bagi id yg di pilih
         $jawatan->delete();
 
-        //redirect to jawatan list
-        return Redirect::route('jawatan.index')->with('success','Maklumat jawatan telah berjaya dihapuskan');
+        return redirect()
+        ->route('jawatan.index')
+        ->with('success','Maklumat jawatan telah berjaya dihapuskan');
     }
-
 }
