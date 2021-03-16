@@ -9,7 +9,6 @@
             <div class="card-header">{{ config('app.name', 'Laravel') }}</div>
             <div class="card-body">
 
-
             </div>
             <div class="card-footer"></div>
         </div>
