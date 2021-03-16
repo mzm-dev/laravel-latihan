@@ -51,13 +51,13 @@
                         <label for="jabatan_id">{{ __('Jabatan') }}</label>
 
                         <select class="form-control @error('jabatan_id') is-invalid @enderror" id="jabatan_id" name="jabatan_id">
-                            <option disabled>--select--</option>
-                            @foreach ($jawatan as $key =>  $jwn)
-                                <option {{ $key == old('jabatan_id', $pegawai->jabatan_id  ?? null) ? 'selected' : '' }} value="{{ $key }}">{{ $jwn }}</option>
+                            <option disabled selected>--select--</option>
+                            @foreach ($jabatan as $key =>  $jbt)
+                                <option {{ $key == old('jabatan_id', $pegawai->jabatan_id  ?? null) ? 'selected' : '' }} value="{{ $key }}">{{ $jbt }}</option>
                             @endforeach
                         </select>
 
-                    @error('jabatan_id')
+                        @error('jabatan_id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -66,8 +66,15 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-8">
-                            <label for="jawatan_id">{{ __('Jawatan') }}</label>
-                            <input type="text" class="form-control @error('jawatan_id') is-invalid @enderror" id="jawatan_id" name="jawatan_id" value="{{ old('jawatan_id', $pegawai->jawatan_id ?? null) }}">
+
+                        <label for="jawatan_id">{{ __('Jawatan') }}</label>
+
+                        <select class="form-control @error('jawatan_id') is-invalid @enderror" id="jawatan_id" name="jawatan_id">
+                            <option disabled selected>--select--</option>
+                            @foreach ($jawatan as $key =>  $jwt)
+                                <option {{ $key == old('jawatan_id', $pegawai->jawatan_id  ?? null) ? 'selected' : '' }} value="{{ $key }}">{{ $jwt }}</option>
+                            @endforeach
+                        </select>
 
                             @error('jawatan_id')
                             <span class="invalid-feedback" role="alert">
