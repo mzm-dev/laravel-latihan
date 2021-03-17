@@ -4,28 +4,31 @@
 {{-- Merujuk kepada yield content dalam layout --}}
 @section('content')
 
-    <div class="container">
-        <div class="card">
-            <div class="card-header">Kemaskini Jawatan</div>
-            <div class="card-body">
+<div class="container">
+    <div class="card">
+        <div class="card-header">Kemaskini Jawatan</div>
+        <div class="card-body">
 
-                <form action="{{ route('jawatan.update', $jawatan) }}" method="POST" novalidate>
-                    @csrf
-                    @method('PUT')
+            <form action="{{ route('jawatan.update', $jawatan) }}" method="POST" novalidate>
+                @csrf
+                @method('PUT')
 
-                    <div class="form-group">
-                        <label for="nama">Nama Jawatan</label>
-                        <input type="text" class="form-control" name="nama" id="nama"
-                            value="{{ old('nama', $jawatan->nama ?? null ) }}">
-                    </div>
+                <div class="form-group">
+                    <label for="nama">Nama Jawatan</label>
+                    <input type="text" class="form-control  @error('nama') is-invalid @enderror" name="nama" id="nama" value="{{ old('nama', $jawatan->nama ?? null ) }}">
 
-                    <button type="submit" class="btn btn-success">Kemaskini</button>
+                    @error('nama')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                </form>
+                <button type="submit" class="btn btn-success">Kemaskini</button>
 
-            </div>
-            <div class="card-footer"></div>
+            </form>
+
         </div>
+        <div class="card-footer"></div>
     </div>
+</div>
 
 @endsection

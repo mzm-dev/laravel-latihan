@@ -30,6 +30,12 @@
                 <a class="nav-link" href="{{ route('jabatan.index') }}">Jabatan</a>
                 </li>
                 <li class="nav-item">
+                <a class="nav-link" href="{{ route('negeri.index') }}">Negeri</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ route('daerah.index') }}">Daerah</a>
+                </li>
+                <li class="nav-item">
                 <a class="nav-link" href="{{ route('pegawai.index') }}">Pegawai</a>
                 </li>
 
