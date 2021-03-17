@@ -40,10 +40,22 @@ class JawatanController extends Controller
      */
     public function store(Request $request)
     {
-        //Save data dari form
 
         //$request->except(['status']);//remove requst fields
         //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
+
+        //$request->validate($fields[], $rules[],$message[]);
+
+        $request->validate([
+            'nama' => 'required|min:3|unique:jawatan',
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+        ],[
+            'nama'=>'Nama Jawatan'
+        ]);
+
         Jawatan::create($request->all());
 
         return redirect()
@@ -82,6 +94,17 @@ class JawatanController extends Controller
      */
     public function update(Request $request, Jawatan $jawatan)
     {
+
+        $request->validate([
+            'nama' => 'required|min:3|unique:jawatan,nama,'.$jawatan->id,
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+        ],[
+            'nama'=>'Nama Jawatan'
+        ]);
+
         //update data form jawatan
         $jawatan->update($request->all());
 
