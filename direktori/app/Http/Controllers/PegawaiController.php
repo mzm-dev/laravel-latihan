@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Daerah;
 use App\Models\Jabatan;
 use App\Models\Jawatan;
+use App\Models\Negeri;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 
@@ -18,7 +20,6 @@ class PegawaiController extends Controller
     {
         //Select berserta pagination
         $pegawaiArray = Pegawai::paginate(5);
-        //$pegawaiArray = Pegawai::simplePaginate(5);
 
         return view('pegawai.index',compact('pegawaiArray'));
     }
@@ -34,8 +35,10 @@ class PegawaiController extends Controller
         //Select dropdown
         $jawatan = Jawatan::pluck('nama','id');
         $jabatan = Jabatan::pluck('nama','id');
+        $negeri = Negeri::pluck('nama','id');
+        $daerah = Daerah::pluck('nama','id');
 
-        return view('pegawai.create', compact('jawatan','jabatan'));
+        return view('pegawai.create', compact('jawatan','jabatan','negeri','daerah'));
     }
 
     /**
@@ -46,7 +49,31 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        //Save data dari form
+        $request->validate([
+            'nama' => 'required|min:3|unique:pegawai',
+            'nokp' => 'required|unique:pegawai',
+            'emel' => 'required|email|unique:pegawai',
+            'negeri_id' => 'required',
+            'daerah_id' => 'required',
+            'jawatan_id' => 'required',
+            'jabatan_id' => 'required',
+            'no_telefon_pejabat' => ['required', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+            'no_telefon_bimbit' => ['nullable', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+        ],[
+            'required'=>':attribute diperlukan.',
+            'required.negeri_id'=>'Sila buat pilihan :attribute.',
+            'required.daerah_id'=>'Sila buat pilihan :attribute.',
+            'required.jawatan_id'=>'Sila buat pilihan :attribute.',
+            'required.jabatan_id'=>'Sila buat pilihan :attribute.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+            'regex'=>':attribute format tidak sah.',
+        ],[
+            'nama'=>'Nama Jawatan',
+            'nokp'=>'No Kad Pengenalan',
+            'emel'=>'Alamat E-mel',
+            'negeri_id'=>'Negeri',
+        ]);
 
         //$request->except(['status']);//remove requst fields
         //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
@@ -65,7 +92,7 @@ class PegawaiController extends Controller
      */
     public function show(Pegawai $pegawai)
     {
-        //
+        return view('pegawai.show',compact('pegawai'));
     }
 
     /**
@@ -79,8 +106,10 @@ class PegawaiController extends Controller
 
         $jawatan = Jawatan::pluck('nama','id');
         $jabatan = Jabatan::pluck('nama','id');
+        $negeri = Negeri::pluck('nama','id');
+        $daerah = Daerah::pluck('nama','id');
 
-        return view('pegawai.edit', compact('pegawai','jawatan','jabatan'));
+        return view('pegawai.edit', compact('pegawai','jawatan','jabatan','negeri','daerah'));
     }
 
     /**
@@ -92,6 +121,25 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, Pegawai $pegawai)
     {
+
+        $request->validate([
+            'nama' => 'required|min:3|unique:pegawai,nama,'.$pegawai->id,
+            'nokp' => 'required|unique:pegawai,nokp,'.$pegawai->id,
+            'emel' => 'required|email|unique:pegawai,emel,'.$pegawai->id,
+            'no_telefon_pejabat' => ['required', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+            'no_telefon_bimbit' => ['nullable', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+            'email'=>':attribute tidak sah.',
+            'regex'=>':attribute format tidak sah.',
+        ],[
+            'nama'=>'Nama Jawatan',
+            'nokp'=>'No Kad Pengenalan',
+            'emel'=>'Alamat E-mel',
+        ]);
+
         //update data form pegawai
         $pegawai->update($request->all());
 
