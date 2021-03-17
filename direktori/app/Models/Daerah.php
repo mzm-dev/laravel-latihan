@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Jabatan extends Model
+class Daerah extends Model
 {
     use HasFactory, SoftDeletes;
 
      //Nama Table
-     protected $table = 'jabatan';
+     protected $table = 'daerah';
 
      //Primary Key Table Jabatan
      protected $primaryKey = 'id';

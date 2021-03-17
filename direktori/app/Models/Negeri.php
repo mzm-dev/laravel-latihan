@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Jawatan extends Model
+class Negeri extends Model
 {
     use HasFactory, SoftDeletes;
 
     //Nama Table
-    protected $table = 'jawatan';
+    protected $table = 'negeri';
 
-    //Primary Key Table Jawatan
+    //Primary Key Table Jabatan
     protected $primaryKey = 'id';
 
-    //Semua field yg berkaitan dengan table jawatan
+    //Semua field yg berkaitan dengan table jabatan
     protected $fillable = ['nama'];
 }
