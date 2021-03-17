@@ -65,6 +65,24 @@ php artisan make:controller JabatanController --resource --model=Jabatan
 ```
 > --resource adalah untuk jana function untuk CRUD
 
+**Ubah timezone di dalam config/app.php**
+
+```php
+    /*
+    |--------------------------------------------------------------------------
+    | Application Timezone
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default timezone for your application, which
+    | will be used by the PHP date and date-time functions. We have gone
+    | ahead and set this to a sensible default for you out of the box.
+    |
+    */
+
+    'timezone' => 'Asia/Kuala_Lumpur',
+```
+
+
 ### Shortcut Key
 
 **Duplicate (Copy & paste)**
