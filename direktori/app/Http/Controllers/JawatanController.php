@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Daerah;
+use App\Models\Jabatan;
 use App\Models\Jawatan;
+use App\Models\Negeri;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 
-class JawatanController extends Controller
+class PegawaiController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-
         //Select berserta pagination
-        $jawatanArray = Jawatan::paginate(5);
-        //$jawatanArray = Jawatan::simplePaginate(5);
+        $pegawaiArray = Pegawai::paginate(5);
 
-        return view('jawatan.index',compact('jawatanArray'));
+        return view('pegawai.index',compact('pegawaiArray'));
     }
 
     /**
@@ -29,7 +31,14 @@ class JawatanController extends Controller
      */
     public function create()
     {
-        return view('jawatan.create');
+
+        //Select dropdown
+        $jawatan = Jawatan::pluck('nama','id');
+        $jabatan = Jabatan::pluck('nama','id');
+        $negeri = Negeri::pluck('nama','id');
+        $daerah = Daerah::pluck('nama','id');
+
+        return view('pegawai.create', compact('jawatan','jabatan','negeri','daerah'));
     }
 
     /**
@@ -40,92 +49,117 @@ class JawatanController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nama' => 'required|min:3|unique:pegawai',
+            'nokp' => 'required|unique:pegawai',
+            'emel' => 'required|email|unique:pegawai',
+            'negeri_id' => 'required',
+            'daerah_id' => 'required',
+            'jawatan_id' => 'required',
+            'jabatan_id' => 'required',
+            'no_telefon_pejabat' => ['required', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+            'no_telefon_bimbit' => ['nullable', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+        ],[
+            'required'=>':attribute diperlukan.',
+            'required.negeri_id'=>'Sila buat pilihan :attribute.',
+            'required.daerah_id'=>'Sila buat pilihan :attribute.',
+            'required.jawatan_id'=>'Sila buat pilihan :attribute.',
+            'required.jabatan_id'=>'Sila buat pilihan :attribute.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+            'regex'=>':attribute format tidak sah.',
+        ],[
+            'nama'=>'Nama Jawatan',
+            'nokp'=>'No Kad Pengenalan',
+            'emel'=>'Alamat E-mel',
+            'negeri_id'=>'Negeri',
+        ]);
 
         //$request->except(['status']);//remove requst fields
         //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
-
-        //$request->validate($fields[], $rules[],$message[]);
-
-        $request->validate([
-            'nama' => 'required|min:3|unique:jawatan',
-        ],[
-            'required'=>':attribute diperlukan.',
-            'unique'=>':attribute telah wujud.',
-            'min'=>':attribute minima 3 aksara.',
-        ],[
-            'nama'=>'Nama Jawatan'
-        ]);
-
-        Jawatan::create($request->all());
+        Pegawai::create($request->all());
 
         return redirect()
-            ->route('jawatan.index')
-            ->with('success','Maklumat jawatan telah berjaya disimpan');
+            ->route('pegawai.index')
+            ->with('success','Maklumat pegawai telah berjaya disimpan');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Jawatan  $jawatan
+     * @param  \App\Models\Pegawai  $pegawai
      * @return \Illuminate\Http\Response
      */
-    public function show(Jawatan $jawatan)
+    public function show(Pegawai $pegawai)
     {
-        //
+        return view('pegawai.show',compact('pegawai'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Jawatan  $jawatan
+     * @param  \App\Models\Pegawai  $pegawai
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jawatan $jawatan)
+    public function edit(Pegawai $pegawai)
     {
-        return view('jawatan.edit', compact('jawatan'));
+
+        $jawatan = Jawatan::pluck('nama','id');
+        $jabatan = Jabatan::pluck('nama','id');
+        $negeri = Negeri::pluck('nama','id');
+        $daerah = Daerah::pluck('nama','id');
+
+        return view('pegawai.edit', compact('pegawai','jawatan','jabatan','negeri','daerah'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Jawatan  $jawatan
+     * @param  \App\Models\Pegawai  $pegawai
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jawatan $jawatan)
+    public function update(Request $request, Pegawai $pegawai)
     {
 
         $request->validate([
-            'nama' => 'required|min:3|unique:jawatan,nama,'.$jawatan->id,
+            'nama' => 'required|min:3|unique:pegawai,nama,'.$pegawai->id,
+            'nokp' => 'required|unique:pegawai,nokp,'.$pegawai->id,
+            'emel' => 'required|email|unique:pegawai,emel,'.$pegawai->id,
+            'no_telefon_pejabat' => ['required', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+            'no_telefon_bimbit' => ['nullable', 'regex:/^[0|1][0-9]\d{7,9}$/'],
         ],[
             'required'=>':attribute diperlukan.',
             'unique'=>':attribute telah wujud.',
             'min'=>':attribute minima 3 aksara.',
+            'email'=>':attribute tidak sah.',
+            'regex'=>':attribute format tidak sah.',
         ],[
-            'nama'=>'Nama Jawatan'
+            'nama'=>'Nama Jawatan',
+            'nokp'=>'No Kad Pengenalan',
+            'emel'=>'Alamat E-mel',
         ]);
 
-        //update data form jawatan
-        $jawatan->update($request->all());
+        //update data form pegawai
+        $pegawai->update($request->all());
 
         return redirect()
-            ->route('jawatan.index')
-            ->with('success','Maklumat jawatan telah berjaya dikemaskini');
+            ->route('pegawai.index')
+            ->with('success','Maklumat pegawai telah berjaya dikemaskini');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Jawatan  $jawatan
+     * @param  \App\Models\Pegawai  $pegawai
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jawatan $jawatan)
+    public function destroy(Pegawai $pegawai)
     {
-        //delete rekod bagi id yg di pilih
-        $jawatan->delete();
+        $pegawai->delete();
 
         return redirect()
-        ->route('jawatan.index')
-        ->with('success','Maklumat jawatan telah berjaya dihapuskan');
+        ->route('pegawai.index')
+        ->with('success','Maklumat pegawai telah berjaya dihapuskan');
     }
 }
