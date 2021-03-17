@@ -25,11 +25,12 @@
                         @forelse ($pegawaiArray as $pegawai)
                             <tr>
                                 <td>{{ $pegawai->id }}</td>
-                                <td>{{ $pegawai->nama }} </td>
-                                <td>{{ $pegawai->created_at }}</td>
-                                <td>{{ $pegawai->updated_at }}</td>
+                                <td>{{$pegawai->nama }}</td>
+                                <td>{{ $pegawai->created_at->format('d-m-Y h:i a') }}</td>
+                                <td>{{ $pegawai->updated_at->format('d-m-Y g:i A') }}</td>
                                 <td>
                                     <a href="{{ route('pegawai.edit',$pegawai) }}">Kemaskini</a>
+                                    <a href="{{ route('pegawai.show',$pegawai) }}">Butiran</a>
 
                                     <form action="{{ route('pegawai.destroy',$pegawai) }}" method="POST"
                                      onsubmit="return confirm('Adakah anda pasti untuk hapuskan data ini?');">
