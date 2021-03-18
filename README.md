@@ -27,9 +27,9 @@
 * [Nota Latihan](https://github.com/mzm-dev/laravel-latihan/wiki)
 
 ## Laravel Cheat Sheet
-* [https://simplecheatsheet.com/tag/laravel-cheat-sheet/]
-* [https://learninglaravel.net/cheatsheet/]
-* [https://morioh.com/p/80c76e45a5ad]
+* (https://simplecheatsheet.com/tag/laravel-cheat-sheet/)
+* (https://learninglaravel.net/cheatsheet/)
+* (https://morioh.com/p/80c76e45a5ad)
 
 ## PHP ARTISAN
 
