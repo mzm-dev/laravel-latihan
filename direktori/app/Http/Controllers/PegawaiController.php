@@ -146,7 +146,7 @@ class PegawaiController extends Controller
     
 		$request->validate([            
 		    'nama' => ['required','min:3', 'regex:/[a-zA-Z @\/\'`]+$/','unique:pegawai,nama,'.$pegawai->id],
-		    'nokp' => ['required', 'regex:/^(\d{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3(0|1))\d{2}\d{4})$/','unique:pegawai,nokp,'.$pegawai->id]
+		    'nokp' => ['required', 'regex:/^(\d{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3(0|1))\d{2}\d{4})$/','unique:pegawai,nokp,'.$pegawai->id],
 		    'emel' => ['required','regex:/^.+\.(gov\.my)$/','unique:pegawai,emel,'.$pegawai->id],
 		    'negeri_id' => 'required',
 		    'daerah_id' => 'required',
