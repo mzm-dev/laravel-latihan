@@ -4,15 +4,19 @@
 {{-- Merujuk kepada yield content dalam layout --}}
 @section('content')
 
-    <div class="container">
-        <div class="card">
-            <div class="card-header">Butiran Pegawai</div>
-            <div class="card-body">
+<div class="container">
+    <div class="card">
+        <div class="card-header">Butiran Pegawai</div>
+        <div class="card-body">
 
-                @php
-                    $blank = 'Tiada Maklumat';
-                @endphp
-
+            @php
+            $blank = 'Tiada Maklumat';
+            @endphp
+            @if ($pegawai->imej && Storage::disk('public')->exists('images/'.$pegawai->imej))
+            <img src="{{ asset('storage/images/'.$pegawai->imej) }}" alt="gambar" class="img-thumbnail float-right" width="92">
+            @else
+            <img src="{{ asset('images/no-image-found.jpg') }}" alt="gambar" class="img-thumbnail" width="">
+            @endif
             <dl class="row">
 
                 <dt class="col-sm-3">Nama</dt>
@@ -46,9 +50,9 @@
                 <dd class="col-sm-9">
                     {{-- if jawatan is exists --}}
                     @if ($pegawai->jawatan)
-                        {{ $pegawai->jawatan->nama }}
+                    {{ $pegawai->jawatan->nama }}
                     @else
-                        {{ $blank }}
+                    {{ $blank }}
                     @endif
                 </dd>
                 {{-- jawatan merujuk nama function di dalam model Pegawai --}}
@@ -57,9 +61,9 @@
                 <dd class="col-sm-9">{{ $pegawai->gred ?? 'Tiada Maklumat' }}</dd>
             </dl>
 
-            </div>
-            <div class="card-footer"></div>
         </div>
+        <div class="card-footer"></div>
     </div>
+</div>
 
 @endsection

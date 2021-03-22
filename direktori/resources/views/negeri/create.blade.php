@@ -12,12 +12,7 @@
                 <form action="{{ route('negeri.store') }}" method="POST" novalidate>
                     @csrf
 
-                    <div class="form-group">
-                        <label for="nama">Nama Negeri</label>
-                        <input type="text" class="form-control" name="nama" id="nama"
-                            placeholder="Sila masukkan nama negeri"
-                            value="{{ old('nama') }}">
-                    </div>
+                    @include('negeri._form')
 
                     <button type="submit" class="btn btn-primary">Daftar</button>
 

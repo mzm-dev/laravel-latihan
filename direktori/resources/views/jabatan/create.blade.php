@@ -12,12 +12,7 @@
                 <form action="{{ route('jabatan.store') }}" method="POST" novalidate>
                     @csrf
 
-                    <div class="form-group">
-                        <label for="nama">Nama Jabatan</label>
-                        <input type="text" class="form-control" name="nama" id="nama"
-                            placeholder="Sila masukkan nama jabatan"
-                            value="{{ old('nama') }}">
-                    </div>
+                    @include('jabatan._form')
 
                     <button type="submit" class="btn btn-primary">Daftar</button>
 

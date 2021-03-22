@@ -13,11 +13,7 @@
                     @csrf
                     @method('PUT')
 
-                    <div class="form-group">
-                        <label for="nama">Nama Negeri</label>
-                        <input type="text" class="form-control" name="nama" id="nama"
-                            value="{{ old('nama', $negeri->nama ?? null ) }}">
-                    </div>
+                    @include('negeri._form')
 
                     <button type="submit" class="btn btn-success">Kemaskini</button>
 

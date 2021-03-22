@@ -9,11 +9,12 @@
             <div class="card-header">Kemaskini Pegawai</div>
             <div class="card-body">
 
-                <form action="{{ route('pegawai.update', $pegawai) }}" method="POST" novalidate>
+                <form action="{{ route('pegawai.update', $pegawai) }}" method="POST" novalidate enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
                     @include('pegawai._form')
+                    @include('pegawai._upload')
 
                     <button type="submit" class="btn btn-success">Kemaskini</button>
 

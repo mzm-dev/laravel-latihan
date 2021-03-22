@@ -23,7 +23,7 @@
     </div>
     <div class="form-group col-md-4">
         <label for="nokp">{{ __('No Kad Pengenalan') }}</label>
-        <input type="text" class="form-control @error('gred') is-invalid @enderror" id="nokp" name="nokp" minlength="12" maxlength="12" value="{{ old('nokp', $pegawai->nokp ?? null) }}">
+        <input type="text" class="form-control @error('nokp') is-invalid @enderror" id="nokp" name="nokp" minlength="12" maxlength="12" value="{{ old('nokp', $pegawai->nokp ?? null) }}">
 
         @error('nokp')
             <span class="invalid-feedback" role="alert">
@@ -121,7 +121,7 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="no_telefon_pejabat">{{ __('No Tel Pejabat') }}</label>
-        <input type="text" class="form-control @error('no_telefon_pejabat') is-invalid @enderror" id="no_telefon_pejabat" name="no_telefon_pejabat" value="{{ old('jawatan_id', $pegawai->no_telefon_pejabat ?? null) }}">
+        <input type="text" class="form-control @error('no_telefon_pejabat') is-invalid @enderror" id="no_telefon_pejabat" name="no_telefon_pejabat" value="{{ old('no_telefon_pejabat', $pegawai->no_telefon_pejabat ?? null) }}">
 
         @error('no_telefon_pejabat')
             <span class="invalid-feedback" role="alert">

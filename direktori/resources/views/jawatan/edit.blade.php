@@ -13,14 +13,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="form-group">
-                    <label for="nama">Nama Jawatan</label>
-                    <input type="text" class="form-control  @error('nama') is-invalid @enderror" name="nama" id="nama" value="{{ old('nama', $jawatan->nama ?? null ) }}">
-
-                    @error('nama')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                @include('jawatan._form')
 
                 <button type="submit" class="btn btn-success">Kemaskini</button>
 
