@@ -71,7 +71,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::verifyEmailView(function () {
-            return view('auth.passwords.confirm');
+            return view('auth.verify');
         });
 
         Fortify::createUsersUsing(CreateNewUser::class);
