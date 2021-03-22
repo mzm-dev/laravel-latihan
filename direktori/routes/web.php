@@ -21,42 +21,45 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (Request $request) {
+Route::middleware(['auth'])->group(function () {
 
-    if ($request->has('keyword')) {
-        $request->validate([
-            'keyword' => 'nullable|min:3|max:255|regex:/(^[A-Za-z0-9\/\- ]+$)+/'
-        ]);
-    }
-    if ($request->has('jabatan')) {
-        $request->validate([
-            'jabatan' => 'nullable|regex:/(^[0-9]+$)+/'
-        ]);
-    }
+    Route::get('/', function (Request $request) {
 
-    $pegawaiArray = Pegawai::with('jabatan', 'jawatan')
-        ->when($request->keyword, function ($q) use ($request) { //Bila ada keyword
-            $q->where(function ($query) use ($request) {
-                $query->whereRaw('lower(nama) regexp lower(?)', [str_replace(" ", "|", filter_var($request->keyword, FILTER_SANITIZE_SPECIAL_CHARS))]);
-            });
-        })
+        if ($request->has('keyword')) {
+            $request->validate([
+                'keyword' => 'nullable|min:3|max:255|regex:/(^[A-Za-z0-9\/\- ]+$)+/'
+            ]);
+        }
+        if ($request->has('jabatan')) {
+            $request->validate([
+                'jabatan' => 'nullable|regex:/(^[0-9]+$)+/'
+            ]);
+        }
 
-        ->when($request->jabatan, function ($q) use ($request) { //Bila ada jabatan
-            $q->where(function ($query) use ($request) {
-                $query->where('jabatan_id', $request->jabatan);
-            });
-        })
-        ->paginate();
+        $pegawaiArray = Pegawai::with('jabatan', 'jawatan')
+            ->when($request->keyword, function ($q) use ($request) { //Bila ada keyword
+                $q->where(function ($query) use ($request) {
+                    $query->whereRaw('lower(nama) regexp lower(?)', [str_replace(" ", "|", filter_var($request->keyword, FILTER_SANITIZE_SPECIAL_CHARS))]);
+                });
+            })
 
-    $pegawaiArray->appends($request->only('keyword','jabatan'));
-    $jabatan = Jabatan::pluck('nama', 'id');
+            ->when($request->jabatan, function ($q) use ($request) { //Bila ada jabatan
+                $q->where(function ($query) use ($request) {
+                    $query->where('jabatan_id', $request->jabatan);
+                });
+            })
+            ->paginate();
 
-    return view('home', compact('pegawaiArray', 'jabatan'));
-})->name('home');
+        $pegawaiArray->appends($request->only('keyword', 'jabatan'));
+        $jabatan = Jabatan::pluck('nama', 'id');
 
+        return view('home', compact('pegawaiArray', 'jabatan'));
+    })->name('home');
 
-Route::resource('jabatan', JabatanController::class)->names('jabatan');
-Route::resource('jawatan', JawatanController::class)->names('jawatan');
-Route::resource('pegawai', PegawaiController::class)->names('pegawai');
-Route::resource('negeri', NegeriController::class)->names('negeri');
-Route::resource('daerah', DaerahController::class)->names('daerah');
+    Route::resource('jawatan', JawatanController::class);
+    Route::resource('jabatan', JabatanController::class);
+    Route::resource('pegawai', PegawaiController::class);
+    Route::resource('daerah', DaerahController::class);
+});
+
+Route::resource('negeri', NegeriController::class)->middleware(['auth']);
