@@ -15,7 +15,7 @@ class JabatanController extends Controller
     public function index()
     {
         //Select berserta pagination
-        $jabatanArray = Jabatan::paginate(5);
+        $jabatanArray = Jabatan::paginate();
         //$jabatanArray = Jabatan::simplePaginate(5);
 
         return view('jabatan.index',compact('jabatanArray'));
@@ -40,6 +40,16 @@ class JabatanController extends Controller
     public function store(Request $request)
     {
         //Save data dari form
+
+        $request->validate([
+            'nama' => 'required|min:3|unique:jabatan',
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+        ],[
+            'nama'=>'Nama Jabatan'
+        ]);
 
         //$request->except(['status']);//remove requst fields
         //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
@@ -81,6 +91,17 @@ class JabatanController extends Controller
      */
     public function update(Request $request, Jabatan $jabatan)
     {
+
+        $request->validate([
+            'nama' => 'required|min:3|unique:jabatan,nama,'.$jabatan->id,
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+        ],[
+            'nama'=>'Nama Jabatan'
+        ]);
+
         //update data form jabatan
         $jabatan->update($request->all());
 

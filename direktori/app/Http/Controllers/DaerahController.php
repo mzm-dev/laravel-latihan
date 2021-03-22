@@ -41,6 +41,16 @@ class DaerahController extends Controller
     {
         //Save data dari form
 
+        $request->validate([
+            'nama' => 'required|min:3|unique:daerah',
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+        ],[
+            'nama'=>'Nama Daerah'
+        ]);
+
         //$request->except(['status']);//remove requst fields
         //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
         Daerah::create($request->all());
@@ -81,6 +91,17 @@ class DaerahController extends Controller
      */
     public function update(Request $request, Daerah $daerah)
     {
+
+        $request->validate([
+            'nama' => 'required|min:3|unique:daerah,nama,'.$daerah->id,
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+        ],[
+            'nama'=>'Nama Daerah'
+        ]);
+
         //update data form daerah
         $daerah->update($request->all());
 

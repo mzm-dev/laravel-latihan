@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
+
 use App\Models\Daerah;
 use App\Models\Jabatan;
 use App\Models\Jawatan;
@@ -13,7 +15,7 @@ class PegawaiController extends Controller
 {
 
 
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -21,9 +23,9 @@ class PegawaiController extends Controller
     public function index()
     {
         //Select berserta pagination
-        $pegawaiArray = Pegawai::paginate(5);
+        $pegawaiArray = Pegawai::paginate();
 
-        return view('pegawai.index',compact('pegawaiArray'));
+        return view('pegawai.index', compact('pegawaiArray'));
     }
 
     /**
@@ -35,12 +37,12 @@ class PegawaiController extends Controller
     {
 
         //Select dropdown
-        $jawatan = Jawatan::pluck('nama','id');
-        $jabatan = Jabatan::pluck('nama','id');
-        $negeri = Negeri::pluck('nama','id');
-        $daerah = Daerah::pluck('nama','id');
+        $jawatan = Jawatan::pluck('nama', 'id');
+        $jabatan = Jabatan::pluck('nama', 'id');
+        $negeri = Negeri::pluck('nama', 'id');
+        $daerah = Daerah::pluck('nama', 'id');
 
-        return view('pegawai.create', compact('jawatan','jabatan','negeri','daerah'));
+        return view('pegawai.create', compact('jawatan', 'jabatan', 'negeri', 'daerah'));
     }
 
     /**
@@ -49,7 +51,7 @@ class PegawaiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      *
-     * 'regex:/^.+\.(gov\.my|com\.my|my|com)$/' 
+     * 'regex:/^.+\.(gov\.my|com\.my|my|com)$/'
      * @ns.gov.my
      * @kpkt.gov.my
      * @com.my
@@ -58,43 +60,44 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-    	//Kod Negeri
-    	//https://www.jpn.gov.my/my/kod-negeri
+        //Kod Negeri
+        //https://www.jpn.gov.my/my/kod-negeri
 
-    	//Email Validation
-    	// 'regex:/^.+\.(gov\.my|com\.my|my|com)$/' 
-	    // @ns.gov.my
-	    // @kpkt.gov.my
-	    // @com.my
-	    // @my
-	    // @com
-    	
-		$request->validate([            
-		    'nama' => ['required','min:3', 'regex:/[a-zA-Z @\/\'`]+$/','unique:pegawai'],
-		    'nokp' => ['required', 'regex:/^(\d{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3(0|1))\d{2}\d{4})$/','unique:pegawai']
-		    'emel' => ['required','regex:/^.+\.(gov\.my)$/','unique:pegawai'],
-		    'negeri_id' => 'required',
-		    'daerah_id' => 'required',
-		    'jawatan_id' => 'required',
-		    'jabatan_id' => 'required',
-		    'no_telefon_pejabat' => ['required', 'regex:/^[0|1][0-9]\d{7,9}$/'],
-		    'no_telefon_bimbit' => ['nullable', 'regex:/^[0|1][0-9]\d{7,9}$/'],
-		],[
-		    'required'=>':attribute diperlukan.',
-		    'required.negeri_id'=>'Sila buat pilihan :attribute.',
-		    'unique'=>':attribute telah wujud.',
-		    'min'=>':attribute terlalu ringkas, minima 3 aksara.',
-		    'regex'=>':attribute format tidak sah.',            
-		    'regex.emel'=>':attribute rasmi sahaja.',
-		],[
-		    'nama'=>'Nama Pegawai',
-		    'nokp'=>'No Kad Pengenalan',
-		    'emel'=>'Alamat E-mel',
-		    'negeri_id'=>'Negeri',
-			'daerah_id'=>'Daerah',
-			'jawatan_id'=>'Jawatan',
-			'jabatan_id'=>'Jabatan',
-		]);
+        //Email Validation
+        // 'regex:/^.+\.(gov\.my|com\.my|my|com)$/'
+        // @ns.gov.my
+        // @kpkt.gov.my
+        // @com.my
+        // @my
+        // @com
+
+        $request->validate([
+            'nama' => ['required', 'min:3', 'regex:/[a-zA-Z @\/\'`]+$/', 'unique:pegawai'],
+            'nokp' => ['required', 'regex:/^(\d{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3(0|1))\d{2}\d{4})$/', 'unique:pegawai'],
+            'emel' => ['required', 'regex:/^.+\.(gov\.my)$/', 'unique:pegawai'],
+            'negeri_id' => 'required',
+            'daerah_id' => 'required',
+            'jawatan_id' => 'required',
+            'gred' => 'required_with:jawatan_id',
+            'jabatan_id' => 'required',
+            'no_telefon_pejabat' => ['required', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+            'no_telefon_bimbit' => ['nullable', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+        ], [
+            'required' => ':attribute diperlukan.',
+            'required.negeri_id' => 'Sila buat pilihan :attribute.',
+            'unique' => ':attribute telah wujud.',
+            'min' => ':attribute terlalu ringkas, minima 3 aksara.',
+            'regex' => ':attribute format tidak sah.',
+            'regex.emel' => ':attribute rasmi sahaja.',
+        ], [
+            'nama' => 'Nama Pegawai',
+            'nokp' => 'No Kad Pengenalan',
+            'emel' => 'Alamat E-mel',
+            'negeri_id' => 'Negeri',
+            'daerah_id' => 'Daerah',
+            'jawatan_id' => 'Jawatan',
+            'jabatan_id' => 'Jabatan',
+        ]);
 
         //$request->except(['status']);//remove requst fields
         //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
@@ -102,7 +105,7 @@ class PegawaiController extends Controller
 
         return redirect()
             ->route('pegawai.index')
-            ->with('success','Maklumat pegawai telah berjaya disimpan');
+            ->with('success', 'Maklumat pegawai telah berjaya disimpan');
     }
 
     /**
@@ -113,7 +116,7 @@ class PegawaiController extends Controller
      */
     public function show(Pegawai $pegawai)
     {
-        return view('pegawai.show',compact('pegawai'));
+        return view('pegawai.show', compact('pegawai'));
     }
 
     /**
@@ -125,12 +128,12 @@ class PegawaiController extends Controller
     public function edit(Pegawai $pegawai)
     {
 
-        $jawatan = Jawatan::pluck('nama','id');
-        $jabatan = Jabatan::pluck('nama','id');
-        $negeri = Negeri::pluck('nama','id');
-        $daerah = Daerah::pluck('nama','id');
+        $jawatan = Jawatan::pluck('nama', 'id');
+        $jabatan = Jabatan::pluck('nama', 'id');
+        $negeri = Negeri::pluck('nama', 'id');
+        $daerah = Daerah::pluck('nama', 'id');
 
-        return view('pegawai.edit', compact('pegawai','jawatan','jabatan','negeri','daerah'));
+        return view('pegawai.edit', compact('pegawai', 'jawatan', 'jabatan', 'negeri', 'daerah'));
     }
 
     /**
@@ -143,40 +146,58 @@ class PegawaiController extends Controller
     public function update(Request $request, Pegawai $pegawai)
     {
 
-    
-		$request->validate([            
-		    'nama' => ['required','min:3', 'regex:/[a-zA-Z @\/\'`]+$/','unique:pegawai,nama,'.$pegawai->id],
-		    'nokp' => ['required', 'regex:/^(\d{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3(0|1))\d{2}\d{4})$/','unique:pegawai,nokp,'.$pegawai->id],
-		    'emel' => ['required','regex:/^.+\.(gov\.my)$/','unique:pegawai,emel,'.$pegawai->id],
-		    'negeri_id' => 'required',
-		    'daerah_id' => 'required',
-		    'jawatan_id' => 'required',
-		    'jabatan_id' => 'required',
-		    'no_telefon_pejabat' => ['required', 'regex:/^[0|1][0-9]\d{7,9}$/'],
-		    'no_telefon_bimbit' => ['nullable', 'regex:/^[0|1][0-9]\d{7,9}$/'],
-		],[
-		    'required'=>':attribute diperlukan.',
-		    'required.negeri_id'=>'Sila buat pilihan :attribute.',
-		    'unique'=>':attribute telah wujud.',
-		    'min'=>':attribute terlalu ringkas, minima 3 aksara.',
-		    'regex'=>':attribute format tidak sah.',            
-		    'regex.emel'=>':attribute rasmi sahaja.',
-		],[
-		    'nama'=>'Nama Pegawai',
-		    'nokp'=>'No Kad Pengenalan',
-		    'emel'=>'Alamat E-mel',
-		    'negeri_id'=>'Negeri',
-			'daerah_id'=>'Daerah',
-			'jawatan_id'=>'Jawatan',
-			'jabatan_id'=>'Jabatan',
-		]);
+
+        $request->validate([
+            'nama' => ['required', 'min:3', 'regex:/[a-zA-Z @\/\'`]+$/', 'unique:pegawai,nama,' . $pegawai->id],
+            'nokp' => ['required', 'regex:/^(\d{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3(0|1))\d{2}\d{4})$/', 'unique:pegawai,nokp,' . $pegawai->id],
+            'emel' => ['required', 'regex:/^.+\.(gov\.my)$/', 'unique:pegawai,emel,' . $pegawai->id],
+            'negeri_id' => 'required',
+            'daerah_id' => 'required',
+            'jawatan_id' => 'required',
+            'gred' => 'required_with:jawatan_id',
+            'jabatan_id' => 'required',
+            'no_telefon_pejabat' => ['required', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+            'no_telefon_bimbit' => ['nullable', 'regex:/^[0|1][0-9]\d{7,9}$/'],
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+
+        ], [
+            'required' => ':attribute diperlukan.',
+            'required.negeri_id' => 'Sila buat pilihan :attribute.',
+            'unique' => ':attribute telah wujud.',
+            'min' => ':attribute terlalu ringkas, minima 3 aksara.',
+            'regex' => ':attribute format tidak sah.',
+            'regex.emel' => ':attribute rasmi sahaja.',
+            'gambar.max' => ':attribute tidak melebihi 2MB.',
+        ], [
+            'nama' => 'Nama Pegawai',
+            'nokp' => 'No Kad Pengenalan',
+            'emel' => 'Alamat E-mel',
+            'negeri_id' => 'Negeri',
+            'daerah_id' => 'Daerah',
+            'jawatan_id' => 'Jawatan',
+            'jabatan_id' => 'Jabatan',
+        ]);
+
+
+        //Semak sekiranya wujud input gambar
+        if ($request->has('gambar')) {
+            //nama baru bagi fail yg di upload
+            //akan disimpan ke dalm fields imej
+            $filename = time() . '.' . $request->gambar->extension();
+
+            //Store Image in Storage Folder
+            //storage/app/images/file.png
+            $request->gambar->storeAs('public/images', $filename);
+
+            $request->merge(['imej' => $filename]);
+        }
 
         //update data form pegawai
         $pegawai->update($request->all());
 
         return redirect()
             ->route('pegawai.index')
-            ->with('success','Maklumat pegawai telah berjaya dikemaskini');
+            ->with('success', 'Maklumat pegawai telah berjaya dikemaskini');
     }
 
     /**
@@ -190,7 +211,7 @@ class PegawaiController extends Controller
         $pegawai->delete();
 
         return redirect()
-        ->route('pegawai.index')
-        ->with('success','Maklumat pegawai telah berjaya dihapuskan');
+            ->route('pegawai.index')
+            ->with('success', 'Maklumat pegawai telah berjaya dihapuskan');
     }
 }

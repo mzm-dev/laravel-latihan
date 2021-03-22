@@ -39,10 +39,20 @@ class NegeriController extends Controller
      */
     public function store(Request $request)
     {
-        //Save data dari form
+
+        $request->validate([
+            'nama' => 'required|min:3|unique:negeri',
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+        ],[
+            'nama'=>'Nama Negeri'
+        ]);
 
         //$request->except(['status']);//remove requst fields
         //$request->merge(['tarikh'=>date('Y-m-d')]);//insert requst fields
+        //Save data dari form
         Negeri::create($request->all());
 
         return redirect()
@@ -81,6 +91,16 @@ class NegeriController extends Controller
      */
     public function update(Request $request, Negeri $negeri)
     {
+        $request->validate([
+            'nama' => 'required|min:3|unique:negeri,nama,'.$negeri->id,
+        ],[
+            'required'=>':attribute diperlukan.',
+            'unique'=>':attribute telah wujud.',
+            'min'=>':attribute minima 3 aksara.',
+        ],[
+            'nama'=>'Nama Negeri'
+        ]);
+
         //update data form negeri
         $negeri->update($request->all());
 

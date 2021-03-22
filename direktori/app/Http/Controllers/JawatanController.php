@@ -16,7 +16,7 @@ class JawatanController extends Controller
     {
 
         //Select berserta pagination
-        $jawatanArray = Jawatan::paginate(5);
+        $jawatanArray = Jawatan::paginate();
         //$jawatanArray = Jawatan::simplePaginate(5);
 
         return view('jawatan.index',compact('jawatanArray'));
