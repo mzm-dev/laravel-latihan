@@ -11,7 +11,7 @@
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 
-                        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                        <input type="hidden" name="token" value="{{ request()->token }}">
 
                         <div class="form-group row">
                             <label for="email"
@@ -19,7 +19,7 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ $request->email ?? old('email') }}" required
+                                    name="email" value="{{ request()->email ?? old('email') }}" required
                                     autocomplete="email" autofocus>
 
                                 @error('email')
