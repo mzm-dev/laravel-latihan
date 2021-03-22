@@ -13,9 +13,11 @@
             $blank = 'Tiada Maklumat';
             @endphp
             @if ($pegawai->imej && Storage::disk('public')->exists('images/'.$pegawai->imej))
-            <img src="{{ asset('storage/images/'.$pegawai->imej) }}" alt="gambar" class="img-thumbnail float-right" width="92">
+            <img src="{{ asset('storage/images/'.$pegawai->imej) }}" alt="gambar" class="img-thumbnail float-right"
+                width="92">
             @else
-            <img src="{{ asset('images/no-image-found.jpg') }}" alt="gambar" class="img-thumbnail" width="">
+            <img src="{{ asset('images/no-image-found.jpg') }}" alt="gambar" class="img-thumbnail float-right"
+                width="92">
             @endif
             <dl class="row">
 
