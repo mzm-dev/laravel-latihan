@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\DaerahController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\JawatanController;
+use App\Http\Controllers\NegeriController;
 use App\Http\Controllers\PegawaiController;
+use App\Models\Jabatan;
+use App\Models\Pegawai;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +21,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
+Route::get('/', function (Request $request) {
+
+    if ($request->has('keyword')) {
+        $request->validate([
+            'keyword' => 'nullable|min:3|max:255|regex:/(^[A-Za-z0-9\/\- ]+$)+/'
+        ]);
+    }
+    if ($request->has('jabatan')) {
+        $request->validate([
+            'jabatan' => 'nullable|regex:/(^[0-9]+$)+/'
+        ]);
+    }
+
+    $pegawaiArray = Pegawai::with('jabatan', 'jawatan')
+        ->when($request->keyword, function ($q) use ($request) { //Bila ada keyword
+            $q->where(function ($query) use ($request) {
+                $query->whereRaw('lower(nama) regexp lower(?)', [str_replace(" ", "|", filter_var($request->keyword, FILTER_SANITIZE_SPECIAL_CHARS))]);
+            });
+        })
+
+        ->when($request->jabatan, function ($q) use ($request) { //Bila ada jabatan
+            $q->where(function ($query) use ($request) {
+                $query->where('jabatan_id', $request->jabatan);
+            });
+        })
+        ->paginate();
+
+    $pegawaiArray->appends($request->only('keyword','jabatan'));
+    $jabatan = Jabatan::pluck('nama', 'id');
+
+    return view('home', compact('pegawaiArray', 'jabatan'));
 })->name('home');
 
 
 Route::resource('jabatan', JabatanController::class)->names('jabatan');
 Route::resource('jawatan', JawatanController::class)->names('jawatan');
 Route::resource('pegawai', PegawaiController::class)->names('pegawai');
-
+Route::resource('negeri', NegeriController::class)->names('negeri');
+Route::resource('daerah', DaerahController::class)->names('daerah');
