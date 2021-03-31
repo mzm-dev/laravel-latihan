@@ -60,6 +60,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('jabatan', JabatanController::class);
     Route::resource('pegawai', PegawaiController::class);
     Route::resource('daerah', DaerahController::class);
+    
+    Route::put('user/pengesahan/{user}',[UsersController::class,'pengesahan'])->name('user.pengesahan');
     Route::resource('user', UsersController::class);
 });
 
