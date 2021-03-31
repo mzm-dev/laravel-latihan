@@ -47,6 +47,9 @@
                         <a class="nav-link" href="{{ route('pegawai.index') }}">Pegawai</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user.index') }}">Pengguna</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link btn btn-light text-dark" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">Logout</a>
 
