@@ -22,12 +22,13 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name', 'Laravel') }}</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    @if (Auth::user())
+
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ route('home') }}">Laman Utama</a>
                     </li>
@@ -57,9 +58,15 @@
                             @csrf
                         </form>
                     </li>
+                    @endif
                 </ul>
             </div>
+            @if (Auth::user())
             <p class="float-right text-light m-0">{{ Auth::user()->name }}</p>
+            @else
+            <a class="float-right text-light m-0 btn btn-link" href="{{ route('register') }}">Register</a>
+            <a class="float-right text-light m-0 btn btn-link" href="{{ route('login') }}">Login</a>
+            @endif
         </div>
     </nav>
 
