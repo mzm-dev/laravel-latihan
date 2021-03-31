@@ -143,6 +143,7 @@ class UsersController extends Controller
     public function pengesahan(Request $request, User $user)
     {
 
+        //Set value date now in email_verified_at
         $request->merge(['email_verified_at' => now()]);
 
         //update data form user
