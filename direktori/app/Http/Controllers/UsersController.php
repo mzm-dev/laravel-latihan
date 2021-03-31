@@ -132,4 +132,24 @@ class UsersController extends Controller
             ->route('user.index')
             ->with('success', 'Maklumat user telah berjaya dihapuskan');
     }
+    
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function pengesahan(Request $request, User $user)
+    {
+
+        $request->merge(['email_verified_at' => now()]);
+
+        //update data form user
+        $user->update($request->all());
+
+        return redirect()
+            ->route('user.index')
+            ->with('success', 'Maklumat user telah berjaya disahkan.');
+    }
 }
