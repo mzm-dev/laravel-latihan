@@ -18,6 +18,7 @@
                         <th>Nama</th>
                         <th>Tarikh Cipta</th>
                         <th>Tarikh Kemaskini</th>
+                        <th>Status Akaun</th>
                         <th>Tindakan</th>
                     </tr>
                 </thead>
@@ -31,8 +32,18 @@
                         <td>{{ $user->created_at }}</td>
                         <td>{{ $user->updated_at }}</td>
                         <td>
-                            <form action="{{ route('user.destroy',$user) }}" method="POST"
-                                onsubmit="return confirm('Adakah anda pasti untuk hapuskan data ini?');">
+                            @if ($user->email_verified_at)
+                            {{ 'Sah' }}
+                            @else
+                            <form action="{{ route('user.pengesahan',$user) }}" method="POST" onsubmit="return confirm('Adakah anda pasti untuk sahkan akaun?');">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-info btn-sm">Meunggu</button>
+                            </form>
+                            @endif
+                        </td>
+                        <td>
+                            <form action="{{ route('user.destroy',$user) }}" method="POST" onsubmit="return confirm('Adakah anda pasti untuk hapuskan data ini?');">
                                 @csrf
                                 @method('DELETE')
                                 <a class="btn btn-warning btn-sm" href="{{ route('user.edit',$user) }}">Kemaskini</a>
